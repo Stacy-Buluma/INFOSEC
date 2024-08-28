@@ -1,35 +1,68 @@
-# Streamlit is a Python library used for creating web applications with simple Python scripts.
-# Imports streamlit python library
+import pickle
+import numpy as np
 import streamlit as st
 
-# Sets the title to "Bio data"
-# st.title() function sets the title of the app
-st.title("Title: Bio data")
-# st.write() function displays text in the app
-st.write("This is a sample web app.")
+model = pickle.load(open('model.pkl', 'rb'))
 
-# Stores the user's first name in the variable first_name
-first_name = st.text_input("First Name")
+col0, col1, col2, col3, col4, col5, col6 = st.columns(7)
+with col0:
+    st.write('')
+with col1:
+    st.write('')
+with col2:
+    st.write('')    
+with col3:
+    st.title("ⴍage") 
+with col4:
+    st.write('')
+with col5:
+    st.write('')
+with col6:
+    st.write('')
 
-# Stores the user's last name in the variable last_name
-last_name = st.text_input("Last Name")
+col7, col8, col9 = st.columns(3)
+with col7:
+    st.write('')    
+with col8:
+    st.markdown("<h6 style='text-align: center;'>A simple web app to predict annual salary</h6>", unsafe_allow_html=True)
+with col9:
+    st.write('')
 
-# selectbox creates a drop down menu with two options(male and female)
-# the 2 options are stores in the variable gender
-gender = st.selectbox("Gender",["Male","Female"])
+gen_list = ["Female", "Male"]
+edu_list = ["Bachelor's", "Master's", "PhD"]
+job_list = ["Director of Marketing", "Director of Operations", "Senior Data Scientist", "Senior Financial Analyst", "Senior Software Engineer"]
+job_idx = [0, 1, 10, 11, 20]
 
-# Allows user to input their age between 0 and 100
-# 30  is the default age and 1 allows the user to increase or decrease their age by 1
-age = st.number_input("Your age", 0, 100, 30, 1)
+gender = st.radio('Pick your gender', gen_list)
+age = st.slider('Pick your age', 21, 55)
+education = st.selectbox('Pick your education level', edu_list)
+job = st.selectbox('Pick your job title', job_list)
+experience = st.slider('Pick your years of experience', 0.0, 25.0, 0.0, 0.5, "%1f")
 
-# The variable dob stores the user's date of birth
-# dateinput() function allows the user to select the date from a calendar widget
-dob = st.date_input("Your Birthday")
+col10, col11, col12, col13, col14 = st.columns(5)
+with col10:
+    st.write('')
+with col11:
+    st.write('')    
+with col12:
+    predict_btn = st.button('Predict Salary')
+with col13:
+    st.write('')
+with col14:
+    st.write('')
 
-# st.radio() creates radio buttons for selecting marital status
-# marital_status variable stores the marital status of a user
-marital_status = st.radio("Marital Status", ["Single", "Married"])
-
-# creates a slider for selecting years of experience, ranging from 0 to 40
-# years_of_experience variable stores the years of experience that a user has
-years_of_experience = st.slider("Years of experience", 0, 40)
+if(predict_btn):
+    inp1 = int(age)
+    inp2 = float(experience)
+    inp3 = int(job_idx[job_list.index(job)])
+    inp4 = int(edu_list.index(education))
+    inp5 = int(gen_list.index(gender))
+    X = [inp1, inp2, inp3, inp4, inp5]
+    salary = model.predict([X])
+    col15, col16, col17 = st.columns(3)
+    with col15:
+        st.write('')    
+    with col16:
+        st.text(f"Estimated salary: ${int(salary[0])}")
+    with col17:
+        st.write('')
