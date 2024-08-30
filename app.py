@@ -5,21 +5,7 @@ import sklearn
 
 model = pickle.load(open('model.pkl', 'rb'))
 
-col0, col1, col2, col3, col4, col5, col6 = st.columns(7)
-with col0:
-    st.write('')
-with col1:
-    st.write('')
-with col2:
-    st.write('')    
-with col3:
-    st.markdown("<h1 style='text-align: center;'>ⴍage</h1>", unsafe_allow_html=True) 
-with col4:
-    st.write('')
-with col5:
-    st.write('')
-with col6:
-    st.write('')
+st.markdown("<h2 style='text-align: center;'>Wage</h2>", unsafe_allow_html=True)
 
 col7, col8, col9 = st.columns(3)
 with col7:
